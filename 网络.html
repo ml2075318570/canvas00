@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>title</title>
+	<style>
+    canvas {
+    	border: 1px solid #ccc;
+    }
+	</style>
+</head>
+<body>
+	<canvas width="600" height="400"></canvas>
+	<script>
+		var myCanvas = document.querySelector('canvas')
+		var ctx = myCanvas.getContext('2d')
+
+		//网格的大小
+		var gridSize = 10
+		//获取画布的宽 高
+		var canvasHeight = ctx.canvas.height
+		var canvasWidth = ctx.canvas.width
+    //X轴方向的线的条数
+    var XLineTotal = Math.floor(canvasHeight / gridSize) 
+    console.log(XLineTotal)
+    for (var i = 0; i <= XLineTotal; i++) {
+    	ctx.beginPath()
+    	ctx.moveTo(0, i * gridSize - 0.5)
+    	ctx.lineTo(canvasWidth, i * gridSize - 0.5)
+    	ctx.strokeStyle = '#eee'
+    	ctx.stroke()
+    }
+    //Y轴方向的线的条数
+    var YLineTotal = Math.floor(canvasWidth / gridSize) 
+    console.log(YLineTotal)
+    for (var i = 0; i <= YLineTotal; i++) {
+    	ctx.beginPath()
+    	ctx.moveTo(i * gridSize - 0.5, 0)
+    	ctx.lineTo(i * gridSize - 0.5, canvasHeight)
+    	ctx.strokeStyle = '#eee'
+    	ctx.stroke()
+    }
+	</script>
+</body>
+</html>

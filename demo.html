@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<canvas id = "hua" width="600" height="400" style="border: 1px solid #ccc"></canvas>
+	<script>
+		var c = document.getElementById('hua')
+		var cxt = c.getContext("2d")
+		// cxt.fillStyle = "#eee"
+		// cxt.fillRect(0, 0, 300, 300)
+    
+		cxt.moveTo(100, 100)
+		cxt.lineTo(200, 100)
+
+		// cxt.moveTo(200, 100)
+		cxt.lineTo(200, 200)
+
+		// cxt.moveTo(200, 200)
+		cxt.lineTo(100, 100)
+
+		cxt.closePath()
+		cxt.fill()
+    cxt.lineWidth = 10
+
+		cxt.strokeStyle = "#00a4ff"
+		cxt.stroke()
+	</script>
+</body>
+</html>

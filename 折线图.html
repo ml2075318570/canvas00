@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>title</title>
+	<style>
+    canvas {
+    	border: 1px solid #ccc;
+    }
+	</style>
+</head>
+<body>
+	<canvas width="600" height="400"></canvas>
+	<script>
+		var myCanvas = document.querySelector('canvas')
+		var ctx = myCanvas.getContext('2d')
+
+    var LineChart = function (ctx) {
+      //获取绘图工具
+      this.ctx = ctx || document.querySelector('canvas').getContext('2d')
+      //画布大小
+      this.canvasWidth = this.ctx.canvas.width
+      this.canvasHeight = this.ctx.canvas.height
+      //网格大小
+      this.gridSize = 10
+      //坐标系间距
+      this.space = 20
+      //坐标原点
+      this.x0 = this.space
+      this.y0 = this.canvasHeight - this.space
+      //箭头大小
+      this.arrowSize = 10
+      //点 
+      this.dottedSize = 6
+   }
+  LineChart.prototype.init = function (data) {
+    this.drawGrid()
+    this.drawAxis()
+    this.drawDotted(data)
+  }
+  //绘制 网格
+  LineChart.prototype.drawGrid = function () {
+    //x轴方向的线
+    var XLineTotal = Math.floor(this.canvasHeight / this.gridSize) 
+    for (var i = 0; i <= XLineTotal; i++) {
+      this.ctx.beginPath()
+      this.ctx.moveTo(0, i * this.gridSize - 0.5)
+      this.ctx.lineTo(this.canvasWidth, i * this.gridSize - 0.5)
+      this.ctx.strokeStyle = '#eee'
+      this.ctx.stroke()
+    }
+    //y轴方向的线
+    var YLineTotal = Math.floor(this.canvasWidth / this.gridSize) 
+    for (var i = 0; i <= YLineTotal; i++) {
+      this.ctx.beginPath()
+      this.ctx.moveTo(i * this.gridSize - 0.5, 0)
+      this.ctx.lineTo(i * this.gridSize - 0.5, this.canvasHeight)
+      this.ctx.strokeStyle = '#eee'
+      this.ctx.stroke()
+    }
+  }
+  //绘制 坐标轴
+  LineChart.prototype.drawAxis = function () {
+    //x轴
+    this.ctx.beginPath()
+    this.ctx.moveTo(this.x0, this.y0)
+    this.ctx.lineTo(this.canvasWidth - this.space,this.y0)
+    this.ctx.lineTo(this.canvasWidth - this.space - this.arrowSize, this.y0 + this.arrowSize / 2)
+    this.ctx.lineTo(this.canvasWidth - this.space - this.arrowSize, this.y0 - this.arrowSize / 2)
+    this.ctx.lineTo(this.canvasWidth - this.space, this.y0)
+    this.ctx.strokeStyle = '#000'
+    this.ctx.stroke()
+    this.ctx.fill()
+    //y轴
+    this.ctx.beginPath()
+    this.ctx.moveTo(this.x0, this.y0)
+    this.ctx.lineTo(this.x0, this.space)
+    this.ctx.lineTo(this.x0 - this.arrowSize / 2, this.space + this.arrowSize)
+    this.ctx.lineTo(this.x0 + this.arrowSize / 2, this.space + this.arrowSize)
+    this.ctx.lineTo(this.x0, this.space)
+    this.ctx.strokeStyle = '#000'
+    this.ctx.stroke()
+    this.ctx.fill()
+  }
+  LineChart.prototype.drawDotted = function (data) {
+    var that = this
+    //记录当前坐标
+    var prevCanvasX = 0
+    var prevCanvasY = 0
+    data.forEach(function (item, i) {
+      var canvasX = that.x0 + item.x;
+      var canvasY = that.y0 - item.y;
+      that.ctx.beginPath()
+      that.ctx.moveTo(canvasX - that.dottedSize / 2, canvasY - that.dottedSize / 2)
+      that.ctx.lineTo(canvasX + that.dottedSize / 2, canvasY - that.dottedSize / 2)
+      that.ctx.lineTo(canvasX + that.dottedSize / 2, canvasY + that.dottedSize / 2)
+      that.ctx.lineTo(canvasX - that.dottedSize / 2, canvasY + that.dottedSize / 2)
+      // that.ctx.stroke()
+      that.ctx.fill()
+      
+      if (i == 0) {
+        that.ctx.beginPath()
+        that.ctx.moveTo(that.x0, that.y0)
+        that.ctx.lineTo(canvasX, canvasY)
+        that.ctx.strokeStyle = 'red'
+        that.ctx.stroke()
+      } else {
+        that.ctx.beginPath()
+        that.ctx.moveTo(prevCanvasX, prevCanvasY)
+        that.ctx.lineTo(canvasX, canvasY)
+        that.ctx.strokeStyle = 'red'
+        that.ctx.stroke()
+      }
+      prevCanvasX = canvasX
+      prevCanvasY = canvasY
+    })
+  }
+    
+
+  var data = [
+        {
+            x: 100,
+            y: 320
+        },
+        {
+            x: 200,
+            y: 160
+        },
+        {
+            x: 300,
+            y: 230
+        },
+        {
+            x: 400,
+            y: 340
+        },
+        {
+            x: 500,
+            y: 213
+        }
+    ];
+  var LineChart = new LineChart()
+  LineChart.init(data)
+
+	</script>
+</body>
+</html>
